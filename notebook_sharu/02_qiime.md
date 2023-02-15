@@ -20,7 +20,7 @@ for n in $(find data -type f) ; do echo $(pwd)/$n ; done
 for n in $(find data -type f) ;do if echo "$n" | grep -q "_R1" ;then echo "forward"; elif echo "$n" | grep -q "_R2"; then echo "reverse" ; fi ;  done
 
 ####make single loop for all 3 steps above to make manifest.csv file
-#####first attempt: (didn't work because of replicates)
+#####first attempt: (didn't work because of non-unique sample-ids)
 find $(pwd)/data -type f -print0 | while read -d '' file; do filename=$(basename "$file"); path=$(dirname "$file"); fullpath="$path/$filename"; firstpart=$(echo "$filename" | cut -d'_' -f1); if echo "$filename" | grep -q "_R1"; then direction="forward"; elif echo "$filename" | grep -q "_R2"; then direction="reverse"; fi; echo "$firstpart,$fullpath,$direction" >> manifest.csv; done
 
 ##manifest file looks like this:
@@ -37,7 +37,7 @@ using the manifest, load the fastq files into a Qiime object
 ```bash
 copy manifest.csv into data directory
 
-module load qiime/2-2021.4 
+module load qiime/2-2021.4     # This is newer version compared to one mentioned in the tutorial, so some commmands are different
 
 time qiime tools import --type 'SampleData[PairedEndSequencesWithQuality]' --input-path /work/gif3/sharu/Metagenomics/data/manifest.csv --output-path demux.qza --input-format PairedEndFastqManifestPhred33
 
@@ -111,4 +111,40 @@ time qiime dada2 denoise-paired \
   --p-n-reads-learn 200000 \
   --output-dir out
 
+dada2 ran successfully. 
+
+Saved FeatureTable[Frequency] to: table-dada2.qza
+Saved FeatureData[Sequence] to: rep-seqs-dada2.qza
+Saved SampleData[DADA2Stats] to: out/denoising_stats.qza
+
+real    126m58.452s
+user    1072m36.926s
+sys     61m17.106s
 ```
+moved outputs to out/ directory
+
+## Adding metadata and examining count table
+
+```bash
+time qiime feature-table summarize --i-table out/table-dada2.qza --o-visualization out/table-dada2.qzv --m-sample-metadata-file /work/gif3/sharu/Metagenomics/mappings.txt
+/opt/rit/singularity/images/qiime/2-2021.4/bin/qiime: line 2: 115534 Killed                  /opt/rit/singularity/images/qiime/2-2021.4/qiime2-2021.4.sif $@
+
+real    14m11.687s
+user    4m50.750s
+sys     1m33.117s
+```
+
+job got killed. I suspect problem with mappings.txt
+tried again using --verbose , killed again
+tried without metadata file, as it is optional
+
+```bash
+time qiime feature-table summarize --i-table out/table-dada2.qza --o-visualization out/table-dada2.qzv --verbose
+/opt/rit/singularity/images/qiime/2-2021.4/bin/qiime: line 2: 124158 Killed                  /opt/rit/singularity/images/qiime/2-2021.4/qiime2-2021.4.sif $@
+
+real    16m29.476s
+user    4m55.523s
+sys     1m51.612s
+```
+
+Might be memory problem, using sbatch instead. Job submitted.
