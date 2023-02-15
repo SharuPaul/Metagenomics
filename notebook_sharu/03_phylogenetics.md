@@ -20,18 +20,33 @@ user    2m33.493s
 sys     0m22.151s
 
 ```
-Search on the internet concluded it might be out of memory error. Try SLURM.
+Search on the internet concluded it might be out of memory error. Try SLURM Sbatch.
 
 ```
 mafft.sh
 time qiime alignment mafft --i-sequences out/rep-seqs-dada2.qza --o-alignment out/aligned-rep-seqs.qza --verbose
-
 ```
+mafft finished successfully.
 
 ## Masking sites
 
+```bash
+#Using SLURM Sbatch for all jobs now
+time qiime alignment mask --i-alignment out/aligned-rep-seqs.qza --o-masked-alignment out/masked-aligned-rep-seqs.qza --verbose
+
+```
+
 ## Creating a tree
+
+```
+```
 
 ### Rooting tree
 
+```
+```
+
 ## Taxonomic analysis
+
+```
+```
