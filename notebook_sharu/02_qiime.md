@@ -148,3 +148,35 @@ sys     1m51.612s
 ```
 
 Might be memory problem, using sbatch instead. Job submitted.
+
+```bash
+time qiime feature-table summarize --i-table out/table-dada2.qza --o-visualization out/table-dada2.qzv --m-sample-metadata-file /work/gif3/sharu/Metagenomics/mappings.txt --verbose
+
+
+Error: The following IDs are not present in the metadata: (list of all IDs)
+
+```
+
+* 02/16/2023
+* /work/gif3/sharu/Metagenomics
+module load qiime/2-2021.4
+
+```bash
+#Need to make metadata file with all samples and unique IDs 
+#Count table without metadata
+time qiime feature-table summarize --i-table out/table-dada2.qza --o-visualization out/table-dada2.qzv --verbose
+
+Saved Visualization to: out/table-dada2.qzv
+
+real    136m9.835s
+user    130m8.363s
+sys     5m34.068s
+```
+
+#Created metadata file manually using python
+
+```bash
+#Count table with metadata
+time qiime feature-table summarize --i-table out/table-dada2.qza --o-visualization out/table-with-metadata-dada2.qzv --m-sample-metadata-file out/AllMetadata.tsv --verbose
+
+```
