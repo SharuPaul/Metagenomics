@@ -97,7 +97,7 @@ Check the taxa-bar-plots.qzv using https://view/qiime2.org at different taxonomi
 
 ### Filtering contaminants
 
-### This part turned out to be incorrect as filtering can be done directly through qiime in newer versions
+### This part turned out to be incorrect; filtering can be done directly through qiime in newer versions
 ```bash
 # Export taxonomy data to tabular format
 time qiime tools export --output-path taxonomy-export --input-path out/taxonomy.qza
@@ -171,7 +171,7 @@ Visualization Successful! Contamination removed!
 time qiime diversity core-metrics --i-table out/table-dada2-filtered.qza --m-metadata-file out/AllMetadata.tsv --p-sampling-depth 4000 --output-dir core-diversity
 ```
 
-## Ordination
+### Ordination
 QIIME emperor plugin calculates a Bray-Curtis dissimilarity matrix and uses principal coordinates analysis (PCoA).
 
 ```
@@ -185,8 +185,36 @@ Visualization Successful!
 ```bash
 QIIME 2 plugin 'gneiss' has no action 'add-pseudocount'. Version 2021.4 has --p-pseudocount parameter within correlation-clustering option.
 
-#Ward’s agglomerative clustering
+#Ward’s hierarchical clustering
 time qiime gneiss correlation-clustering --i-table out/table-dada2-filtered.qza --p-pseudocount 1 --o-clustering hierarchy.qza --output-dir Gneiss
 
-
+Saved Hierarchy to: hierarchy.qza
+real    430m17.295s
+user    429m9.564s
+sys     0m22.776s
 ```
+
+* 02/20/2023
+* /work/gif3/sharu/Metagenomics
+module load qiime/2-2021.4
+
+```bash
+#Calculate the isometric log transforms 
+time qiime gneiss ilr-hierarchical --i-table out/table-dada2-filtered.qza --i-tree hierarchy.qza --o-balances balances.qza
+
+Saved FeatureTable[Balance] to: balances.qza
+real    14m33.400s
+user    261m53.696s
+sys     11m32.647s
+
+The options in qiime gneiss such as ols-regression, lme-regression, and balance-taxonomy are no longer available in version 2021.4. Trying some new features:
+
+#Visualization of hierarchical clustering
+
+time qiime gneiss dendrogram-heatmap --i-table out/table-dada2-filtered.qza --i-tree hierarchy.qza --m-metadata-file out/AllMetadata.tsv --m-metadata-column Genotype --p-color-map seismic --o-visualization heatmap.qzv
+
+Plugin warning from gneiss:
+dendrogram-heatmap is deprecated and will be removed in a future version of this plugin.
+Saved Visualization to: heatmap.qzv
+```
+

@@ -3,7 +3,7 @@
 * 02/14/2023
 * Nova: /work/gif3/sharu/Metagenomics/
 
-Qiime2 tutorial that I am working through located here: https://bioinformaticsworkbook.org/dataAnalysis/Metagenomics/Qiime2.html#gsc.tab=0
+Qiime2 tutorial that I am working through located here: https://bioinformaticsworkbook.org/dataAnalysis/Metagenomics/Qiime2.html
 
 ```bash
 Novadtn:
