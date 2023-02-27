@@ -5,7 +5,7 @@
 * 02/14/2023
 * Nova: /work/gif3/sharu/Metagenomics/
 
-## Created a manifest.csv file 
+## Create a manifest.csv file 
 ##manifest.csv
 ##contains: sample-id,absolute-filepath,direction
 
