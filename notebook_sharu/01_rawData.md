@@ -7,7 +7,6 @@ Qiime2 tutorial that I am working through located here: https://bioinformaticswo
 
 ```bash
 Novadtn:
-Copied the mapping file: got from Andrew
 Downloaded reads data in /work/gif3/sharu/Metagenomics/data/ 
 from https://www.ebi.ac.uk/ena/browser/view/PRJEB15671?dataType=PROJECT&show=reads
 
