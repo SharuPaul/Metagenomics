@@ -2,12 +2,4 @@ data
 out
 demux*
 slurm*
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 *.sh
-=======
-*.sh
->>>>>>> Stashed changes
-=======
-*.sh
->>>>>>> Stashed changes
